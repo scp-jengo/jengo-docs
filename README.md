@@ -11,6 +11,7 @@ Anyone who wants to run their own Jengo agent — either as part of the ProsperG
 | Document | Description |
 |---|---|
 | [fork-instructions.html](fork-instructions.html) | Complete step-by-step guide: fork the public repos, create your private and machine repos, clone everything locally, add upstream remotes, and make your first customizations. |
+| [fork-prospergenics-team.html](fork-prospergenics-team.html) | ProsperGenics team members: clone the 4 shared team repos and create your personal machine repos (`jengo-*-prospergenics-yourname-yourmachine`). |
 
 ## Quick start
 

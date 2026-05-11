@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProsperGenics Team — Jengo Setup Guide</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      line-height: 1.7;
+      padding: 2rem 1rem;
+    }
+    .page { max-width: 860px; margin: 0 auto; }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.4rem; }
+    h2 { font-size: 1.3rem; font-weight: 600; color: #58a6ff; margin: 2.5rem 0 0.8rem; border-bottom: 1px solid #21262d; padding-bottom: 0.4rem; }
+    h3 { font-size: 1rem; font-weight: 600; color: #8b949e; margin: 1.2rem 0 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    p { margin-bottom: 0.8rem; color: #c9d1d9; }
+    .subtitle { color: #8b949e; margin-bottom: 2rem; }
+    a { color: #58a6ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    pre {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+      overflow-x: auto;
+      margin: 0.8rem 0 1.2rem;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+    code {
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+      color: #e6edf3;
+    }
+    pre code { color: #e6edf3; }
+    .comment { color: #8b949e; }
+    .cmd { color: #79c0ff; }
+    .arg  { color: #a5d6ff; }
+    .flag { color: #ffa657; }
+    .var  { color: #ff7b72; font-style: italic; }
+
+    .info  { background: #1c2333; border-left: 3px solid #58a6ff; padding: 0.9rem 1.1rem; border-radius: 0 6px 6px 0; margin: 1rem 0; }
+    .warn  { background: #2d1e00; border-left: 3px solid #d29922; padding: 0.9rem 1.1rem; border-radius: 0 6px 6px 0; margin: 1rem 0; }
+    .tip   { background: #0f2d1e; border-left: 3px solid #3fb950; padding: 0.9rem 1.1rem; border-radius: 0 6px 6px 0; margin: 1rem 0; }
+    .info p, .warn p, .tip p { margin: 0; color: inherit; }
+
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 0.9rem; }
+    th { background: #161b22; color: #8b949e; text-align: left; padding: 0.6rem 1rem; border: 1px solid #30363d; font-weight: 600; }
+    td { padding: 0.6rem 1rem; border: 1px solid #21262d; color: #c9d1d9; vertical-align: top; }
+    tr:nth-child(even) td { background: #0d1117; }
+    tr:nth-child(odd)  td { background: #111620; }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 2.5rem 0 0.8rem;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 0.4rem;
+    }
+    .step-num {
+      background: #1f6feb;
+      color: #fff;
+      font-weight: 700;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .step-header h2 { margin: 0; border: none; padding: 0; }
+
+    .pill {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.1rem 0.5rem;
+      border-radius: 20px;
+      vertical-align: middle;
+      margin-left: 0.3rem;
+    }
+    .pill-shared { background: #1f6feb33; color: #58a6ff; border: 1px solid #1f6feb55; }
+    .pill-mach   { background: #3fb95033; color: #3fb950; border: 1px solid #3fb95055; }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 1rem;
+    }
+    .card h4 { font-size: 0.9rem; margin-bottom: 0.4rem; color: #e6edf3; }
+    .card p  { font-size: 0.85rem; margin: 0; color: #8b949e; }
+
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+
+    hr { border: none; border-top: 1px solid #21262d; margin: 2rem 0; }
+    .toc { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 1rem 1.4rem; margin: 1.5rem 0 2rem; }
+    .toc h3 { margin-bottom: 0.6rem; color: #e6edf3; text-transform: none; letter-spacing: 0; font-size: 0.9rem; }
+    .toc ol { padding-left: 1.4rem; margin: 0; }
+    .toc li { margin-bottom: 0.3rem; font-size: 0.9rem; }
+
+    ul { color: #c9d1d9; padding-left: 1.4rem; margin-bottom: 0.8rem; }
+    ul li { margin-bottom: 0.3rem; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <h1>ProsperGenics Team Setup</h1>
+  <p class="subtitle">How to set up your personal Jengo instance on your machine</p>
+
+  <div class="toc">
+    <h3>Contents</h3>
+    <ol>
+      <li><a href="#overview">What you're creating</a></li>
+      <li><a href="#prereqs">Prerequisites</a></li>
+      <li><a href="#clone-shared">Clone the 4 shared team repos</a></li>
+      <li><a href="#machine-repos">Create your 4 machine repos</a></li>
+      <li><a href="#clone-machine">Clone your machine repos locally</a></li>
+      <li><a href="#upstream">Add upstream remotes</a></li>
+      <li><a href="#customize">First customizations</a></li>
+    </ol>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="step-header"><div class="step-num">?</div><h2 id="overview">What You're Creating</h2></div>
+
+  <p>The ProsperGenics team shares 4 repos that hold the agent architecture. Each team member also needs 4 <em>machine repos</em> — private repos that live on your own GitHub account and hold your local paths, credentials, and machine-specific config.</p>
+
+  <table>
+    <tr>
+      <th>Tier</th>
+      <th>Repos (4 total)</th>
+      <th>Owned by</th>
+      <th>What it holds</th>
+    </tr>
+    <tr>
+      <td><span class="pill pill-shared">shared</span></td>
+      <td><code>jengo-*-prospergenics</code></td>
+      <td>scp-jengo (team)</td>
+      <td>The shared architecture — identity, system, knowledge, world. You clone this but don't push private data to it.</td>
+    </tr>
+    <tr>
+      <td><span class="pill pill-mach">machine</span></td>
+      <td><code>jengo-*-prospergenics-<em>yourname</em>-<em>yourmachine</em></code></td>
+      <td>Your GitHub account</td>
+      <td>Your local paths, CLAUDE.md, credential references. Never shared with the team.</td>
+    </tr>
+  </table>
+
+  <div class="info"><p>Replace <strong><code>yourname</code></strong> with your first name (lowercase, no spaces) and <strong><code>yourmachine</code></strong> with <code>laptop</code> or <code>pc</code> throughout this guide. Example: <code>jengo-system-prospergenics-frank-laptop</code></p></div>
+
+  <!-- PREREQS -->
+  <div class="step-header"><div class="step-num">0</div><h2 id="prereqs">Prerequisites</h2></div>
+
+  <ul>
+    <li>Git installed — <code>git --version</code> should return something</li>
+    <li>GitHub CLI installed — <code>gh --version</code> should return something</li>
+    <li>Logged in to GitHub CLI — run <code>gh auth login</code> if not yet done</li>
+    <li>You have accepted your GitHub invitation to the <code>scp-jengo</code> repos (check your email or <a href="https://github.com/notifications" target="_blank">github.com/notifications</a>)</li>
+  </ul>
+
+  <div class="tip"><p><strong>Install GitHub CLI:</strong> <a href="https://cli.github.com" target="_blank">cli.github.com</a> — Windows: <code>winget install GitHub.cli</code></p></div>
+
+  <!-- STEP 1 — CLONE SHARED -->
+  <div class="step-header"><div class="step-num">1</div><h2 id="clone-shared">Clone the 4 Shared Team Repos <span class="pill pill-shared">shared</span></h2></div>
+
+  <p>These repos already exist in the team's GitHub organization. You clone them — you don't fork or create them.</p>
+
+  <pre><code><span class="comment"># Create your working folder</span>
+<span class="cmd">mkdir</span> <span class="arg">C:\projects\jengo</span>
+<span class="cmd">cd</span> <span class="arg">C:\projects\jengo</span>
+
+<span class="comment"># Clone the 4 shared team repos</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/scp-jengo/jengo-identity-prospergenics</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/scp-jengo/jengo-system-prospergenics</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/scp-jengo/jengo-knowledge-prospergenics</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/scp-jengo/jengo-world-prospergenics</span></code></pre>
+
+  <div class="warn"><p>If clone fails with a 404 or permission error, your GitHub invitation hasn't been accepted yet. Check <a href="https://github.com/notifications" target="_blank">github.com/notifications</a> for the invite email and accept it first.</p></div>
+
+  <!-- STEP 2 — CREATE MACHINE REPOS -->
+  <div class="step-header"><div class="step-num">2</div><h2 id="machine-repos">Create Your 4 Machine Repos <span class="pill pill-mach">machine</span></h2></div>
+
+  <p>These are new empty repos on <em>your own GitHub account</em> — not forks. They hold your local config and never get shared with the team.</p>
+
+  <p>Replace <code><span class="var">yourname</span></code> and <code><span class="var">yourmachine</span></code> before running:</p>
+
+  <pre><code><span class="comment"># Create 4 machine repos on your own GitHub account (private)</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">jengo-identity-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span></span>  <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Machine-local identity config"</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">jengo-system-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span></span>    <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Machine-local system config and CLAUDE.md"</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">jengo-knowledge-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span></span>  <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Machine-local knowledge config"</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">jengo-world-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span></span>     <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Machine-local world config"</span></code></pre>
+
+  <p>For example, if your name is Frank and you're on a laptop:</p>
+
+  <pre><code><span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">jengo-identity-prospergenics-frank-laptop</span>  <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Machine-local identity config"</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">jengo-system-prospergenics-frank-laptop</span>    <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Machine-local system config and CLAUDE.md"</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">jengo-knowledge-prospergenics-frank-laptop</span>  <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Machine-local knowledge config"</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">jengo-world-prospergenics-frank-laptop</span>     <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Machine-local world config"</span></code></pre>
+
+  <div class="warn"><p><strong>Never commit plaintext secrets.</strong> These repos are for paths and config structure. Actual API keys go in a secrets manager (1Password, Bitwarden, Windows Credential Manager) — store only the reference name in the machine repo, not the value.</p></div>
+
+  <!-- STEP 3 — CLONE MACHINE -->
+  <div class="step-header"><div class="step-num">3</div><h2 id="clone-machine">Clone Your Machine Repos Locally</h2></div>
+
+  <p>Clone your 4 machine repos into the same <code>C:\projects\jengo</code> folder alongside the shared repos.</p>
+
+  <pre><code><span class="cmd">cd</span> <span class="arg">C:\projects\jengo</span>
+
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/<span class="var">your-github-username</span>/jengo-identity-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span></span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/<span class="var">your-github-username</span>/jengo-system-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span></span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/<span class="var">your-github-username</span>/jengo-knowledge-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span></span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/<span class="var">your-github-username</span>/jengo-world-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span></span></code></pre>
+
+  <p>After cloning, your folder should look like this:</p>
+
+  <pre><code>C:\projects\jengo\
+  ├── jengo-identity-prospergenics\            <span class="comment">(shared team repo)</span>
+  ├── jengo-system-prospergenics\              <span class="comment">(shared team repo)</span>
+  ├── jengo-knowledge-prospergenics\           <span class="comment">(shared team repo)</span>
+  ├── jengo-world-prospergenics\               <span class="comment">(shared team repo)</span>
+  ├── jengo-identity-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span>\   <span class="comment">(your machine repo)</span>
+  ├── jengo-system-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span>\     <span class="comment">(your machine repo)</span>
+  ├── jengo-knowledge-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span>\  <span class="comment">(your machine repo)</span>
+  └── jengo-world-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span>\     <span class="comment">(your machine repo)</span></code></pre>
+
+  <!-- STEP 4 — UPSTREAM -->
+  <div class="step-header"><div class="step-num">4</div><h2 id="upstream">Add Upstream Remotes</h2></div>
+
+  <p>Link each of your machine repos back to the corresponding shared team repo as an <code>upstream</code> remote. This lets you pull team updates into your machine layer when the shared architecture changes.</p>
+
+  <pre><code><span class="comment"># Add upstream to each machine repo</span>
+<span class="cmd">cd</span> <span class="arg">C:\projects\jengo\jengo-identity-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span></span>
+<span class="cmd">git</span> <span class="arg">remote add upstream</span> <span class="flag">https://github.com/scp-jengo/jengo-identity-prospergenics</span>
+
+<span class="cmd">cd</span> <span class="arg">C:\projects\jengo\jengo-system-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span></span>
+<span class="cmd">git</span> <span class="arg">remote add upstream</span> <span class="flag">https://github.com/scp-jengo/jengo-system-prospergenics</span>
+
+<span class="cmd">cd</span> <span class="arg">C:\projects\jengo\jengo-knowledge-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span></span>
+<span class="cmd">git</span> <span class="arg">remote add upstream</span> <span class="flag">https://github.com/scp-jengo/jengo-knowledge-prospergenics</span>
+
+<span class="cmd">cd</span> <span class="arg">C:\projects\jengo\jengo-world-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span></span>
+<span class="cmd">git</span> <span class="arg">remote add upstream</span> <span class="flag">https://github.com/scp-jengo/jengo-world-prospergenics</span></code></pre>
+
+  <p>When the team pushes updates to a shared repo, pull them like this:</p>
+
+  <pre><code><span class="comment"># Pull team updates into your machine repo (run per repo)</span>
+<span class="cmd">git</span> <span class="arg">fetch upstream</span>
+<span class="cmd">git</span> <span class="arg">merge</span> <span class="flag">upstream/main</span>
+<span class="cmd">git</span> <span class="arg">push origin</span></code></pre>
+
+  <!-- STEP 5 — CUSTOMIZE -->
+  <div class="step-header"><div class="step-num">5</div><h2 id="customize">First Customizations</h2></div>
+
+  <p>The one file you must create before your agent knows who and where it is:</p>
+
+  <div class="grid">
+    <div class="card">
+      <h4>jengo-system-prospergenics-<em>yourname</em>-<em>yourmachine</em>/CLAUDE.md</h4>
+      <p>The system prompt for Claude Code. Tells the agent its name, the team context, and where all repos live on your machine.</p>
+    </div>
+    <div class="card">
+      <h4>jengo-identity-prospergenics-<em>yourname</em>-<em>yourmachine</em>/BOOTSTRAP.md</h4>
+      <p>The anchor file. Copy from the shared identity repo and update the agent name and machine paths at the top.</p>
+    </div>
+  </div>
+
+  <p style="margin-top:1.2rem;">Minimum <code>CLAUDE.md</code> to get started (adjust paths and name):</p>
+
+  <pre><code><span class="comment"># Save this as: jengo-system-prospergenics-yourname-yourmachine/CLAUDE.md</span>
+
+You are <span class="var">Jengo</span>, an autonomous AI agent for the ProsperGenics team.
+
+STARTUP SEQUENCE — execute this before anything else:
+1. Read C:\projects\jengo\jengo-identity-prospergenics\BOOTSTRAP.md
+2. Read C:\projects\jengo\jengo-identity-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span>\BOOTSTRAP.md  <span class="comment">(if it exists)</span>
+3. Read C:\projects\jengo\jengo-knowledge-prospergenics\logs\reflection.log.md  <span class="comment">(first 100 lines)</span>
+
+REPO PATHS:
+  SHARED:
+    C:\projects\jengo\jengo-identity-prospergenics
+    C:\projects\jengo\jengo-system-prospergenics
+    C:\projects\jengo\jengo-knowledge-prospergenics
+    C:\projects\jengo\jengo-world-prospergenics
+
+  MACHINE (this machine only):
+    C:\projects\jengo\jengo-identity-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span>
+    C:\projects\jengo\jengo-system-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span>
+    C:\projects\jengo\jengo-knowledge-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span>
+    C:\projects\jengo\jengo-world-prospergenics-<span class="var">yourname</span>-<span class="var">yourmachine</span>
+
+You are NOT a generic assistant. Read the files. Then act.</code></pre>
+
+  <div class="tip"><p><strong>Connecting CLAUDE.md to Claude Code:</strong> In Claude Code settings, set the project system prompt to point to this file — or paste its contents into your Claude Code project settings directly.</p></div>
+
+  <hr />
+
+  <h2 id="reference">Quick Reference</h2>
+
+  <table>
+    <tr><th>Repo</th><th>Where it lives</th><th>Action</th><th>Contains</th></tr>
+    <tr>
+      <td><code>jengo-identity-prospergenics</code></td>
+      <td>scp-jengo (team)</td>
+      <td>Clone</td>
+      <td>Shared identity, persona, protocols</td>
+    </tr>
+    <tr>
+      <td><code>jengo-system-prospergenics</code></td>
+      <td>scp-jengo (team)</td>
+      <td>Clone</td>
+      <td>Shared tools, skills, frameworks</td>
+    </tr>
+    <tr>
+      <td><code>jengo-knowledge-prospergenics</code></td>
+      <td>scp-jengo (team)</td>
+      <td>Clone</td>
+      <td>Shared knowledge base, logs</td>
+    </tr>
+    <tr>
+      <td><code>jengo-world-prospergenics</code></td>
+      <td>scp-jengo (team)</td>
+      <td>Clone</td>
+      <td>Shared projects and world model</td>
+    </tr>
+    <tr>
+      <td><code>jengo-identity-prospergenics-<em>yourname</em>-<em>yourmachine</em></code></td>
+      <td>Your GitHub account</td>
+      <td>Create new</td>
+      <td>Machine BOOTSTRAP.md, local overrides</td>
+    </tr>
+    <tr>
+      <td><code>jengo-system-prospergenics-<em>yourname</em>-<em>yourmachine</em></code></td>
+      <td>Your GitHub account</td>
+      <td>Create new</td>
+      <td>CLAUDE.md, local tool paths</td>
+    </tr>
+    <tr>
+      <td><code>jengo-knowledge-prospergenics-<em>yourname</em>-<em>yourmachine</em></code></td>
+      <td>Your GitHub account</td>
+      <td>Create new</td>
+      <td>Machine-specific knowledge config</td>
+    </tr>
+    <tr>
+      <td><code>jengo-world-prospergenics-<em>yourname</em>-<em>yourmachine</em></code></td>
+      <td>Your GitHub account</td>
+      <td>Create new</td>
+      <td>Machine-local service and infra config</td>
+    </tr>
+  </table>
+
+  <p style="margin-top:2rem; color:#8b949e; font-size:0.85rem;">Questions? Ask Martien or open an issue in <a href="https://github.com/scp-jengo/jengo-docs" target="_blank">scp-jengo/jengo-docs</a>.</p>
+
+</div>
+</body>
+</html>
