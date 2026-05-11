@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Fork Jengo — Team Setup Guide</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      line-height: 1.7;
+      padding: 2rem 1rem;
+    }
+    .page { max-width: 860px; margin: 0 auto; }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.4rem; }
+    h2 { font-size: 1.3rem; font-weight: 600; color: #58a6ff; margin: 2.5rem 0 0.8rem; border-bottom: 1px solid #21262d; padding-bottom: 0.4rem; }
+    h3 { font-size: 1rem; font-weight: 600; color: #8b949e; margin: 1.2rem 0 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    p { margin-bottom: 0.8rem; color: #c9d1d9; }
+    .subtitle { color: #8b949e; margin-bottom: 2rem; }
+    a { color: #58a6ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Code blocks */
+    pre {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+      overflow-x: auto;
+      margin: 0.8rem 0 1.2rem;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+    code {
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+      color: #e6edf3;
+    }
+    pre code { color: #e6edf3; }
+    .comment { color: #8b949e; }
+    .cmd { color: #79c0ff; }
+    .arg  { color: #a5d6ff; }
+    .flag { color: #ffa657; }
+    .var  { color: #ff7b72; font-style: italic; }
+
+    /* Callout boxes */
+    .info  { background: #1c2333; border-left: 3px solid #58a6ff; padding: 0.9rem 1.1rem; border-radius: 0 6px 6px 0; margin: 1rem 0; }
+    .warn  { background: #2d1e00; border-left: 3px solid #d29922; padding: 0.9rem 1.1rem; border-radius: 0 6px 6px 0; margin: 1rem 0; }
+    .tip   { background: #0f2d1e; border-left: 3px solid #3fb950; padding: 0.9rem 1.1rem; border-radius: 0 6px 6px 0; margin: 1rem 0; }
+    .info p, .warn p, .tip p { margin: 0; color: inherit; }
+
+    /* Table */
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 0.9rem; }
+    th { background: #161b22; color: #8b949e; text-align: left; padding: 0.6rem 1rem; border: 1px solid #30363d; font-weight: 600; }
+    td { padding: 0.6rem 1rem; border: 1px solid #21262d; color: #c9d1d9; vertical-align: top; }
+    tr:nth-child(even) td { background: #0d1117; }
+    tr:nth-child(odd)  td { background: #111620; }
+
+    /* Step numbering */
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 2.5rem 0 0.8rem;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 0.4rem;
+    }
+    .step-num {
+      background: #1f6feb;
+      color: #fff;
+      font-weight: 700;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .step-header h2 { margin: 0; border: none; padding: 0; }
+
+    .pill {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.1rem 0.5rem;
+      border-radius: 20px;
+      vertical-align: middle;
+      margin-left: 0.3rem;
+    }
+    .pill-pub   { background: #1f6feb33; color: #58a6ff; border: 1px solid #1f6feb55; }
+    .pill-priv  { background: #d2992233; color: #d29922; border: 1px solid #d2992255; }
+    .pill-mach  { background: #3fb95033; color: #3fb950; border: 1px solid #3fb95055; }
+    .pill-skip  { background: #21262d; color: #8b949e; border: 1px solid #30363d; }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 1rem;
+    }
+    .card h4 { font-size: 0.9rem; margin-bottom: 0.4rem; color: #e6edf3; }
+    .card p  { font-size: 0.85rem; margin: 0; color: #8b949e; }
+
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+
+    hr { border: none; border-top: 1px solid #21262d; margin: 2rem 0; }
+    .toc { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 1rem 1.4rem; margin: 1.5rem 0 2rem; }
+    .toc h3 { margin-bottom: 0.6rem; color: #e6edf3; text-transform: none; letter-spacing: 0; font-size: 0.9rem; }
+    .toc ol { padding-left: 1.4rem; margin: 0; }
+    .toc li { margin-bottom: 0.3rem; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <h1>Fork Your Own Jengo</h1>
+  <p class="subtitle">Complete git setup guide — fork, clone, and wire up all repos on your own machine</p>
+
+  <div class="toc">
+    <h3>Contents</h3>
+    <ol>
+      <li><a href="#overview">What you're creating</a></li>
+      <li><a href="#prereqs">Prerequisites</a></li>
+      <li><a href="#fork">Fork the 4 public repos on GitHub</a></li>
+      <li><a href="#private">Create your private repos (fresh)</a></li>
+      <li><a href="#machine">Create your machine repos (fresh)</a></li>
+      <li><a href="#clone">Clone everything locally</a></li>
+      <li><a href="#upstream">Add upstream remotes (pull Martien's updates)</a></li>
+      <li><a href="#customize">First customizations</a></li>
+    </ol>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="step-header"><div class="step-num">?</div><h2 id="overview">What You're Creating</h2></div>
+
+  <p>Jengo uses three tiers of repos per module. Each team member needs their own copy of all three tiers:</p>
+
+  <table>
+    <tr>
+      <th>Tier</th>
+      <th>Repos</th>
+      <th>What it holds</th>
+      <th>How to get it</th>
+    </tr>
+    <tr>
+      <td><span class="pill pill-pub">public</span></td>
+      <td>identity, system, knowledge, world</td>
+      <td>Shareable patterns, frameworks, templates — the architecture itself</td>
+      <td>Fork from <code>martiendejong</code></td>
+    </tr>
+    <tr>
+      <td><span class="pill pill-priv">private</span></td>
+      <td>identity, system, knowledge, world</td>
+      <td>Your agent's personal state — memory, reflection log, operational manual</td>
+      <td>Create new empty repos</td>
+    </tr>
+    <tr>
+      <td><span class="pill pill-mach">machine</span></td>
+      <td>identity, system, knowledge, world</td>
+      <td>Local secrets, credentials, machine-specific paths — never shared</td>
+      <td>Create new empty repos</td>
+    </tr>
+    <tr>
+      <td><span class="pill pill-skip">registry</span></td>
+      <td>—</td>
+      <td>No longer in use. Skip it.</td>
+      <td>—</td>
+    </tr>
+  </table>
+
+  <div class="info"><p>Total: <strong>12 repos</strong> per agent (4 public forks + 4 private new + 4 machine new). All 12 are private on GitHub — "public" just means the <em>architecture layer</em> is shareable, not that the GitHub repo is publicly visible.</p></div>
+
+  <p>Replace <strong><code>yourname</code></strong> and <strong><code>your-github-username</code></strong> throughout with your agent name and GitHub handle.</p>
+
+  <!-- PREREQS -->
+  <div class="step-header"><div class="step-num">0</div><h2 id="prereqs">Prerequisites</h2></div>
+
+  <p>You need:</p>
+  <ul style="color:#c9d1d9; padding-left:1.4rem; margin-bottom:0.8rem;">
+    <li>Git installed — <code>git --version</code> should return something</li>
+    <li>GitHub CLI installed — <code>gh --version</code> should return something</li>
+    <li>Logged in to GitHub CLI — run <code>gh auth login</code> if not yet done</li>
+    <li>Access granted to Martien's private repos (ask if you don't have it)</li>
+  </ul>
+
+  <div class="tip"><p><strong>Install GitHub CLI:</strong> <a href="https://cli.github.com" target="_blank">cli.github.com</a> — Windows: <code>winget install GitHub.cli</code></p></div>
+
+  <!-- STEP 1 — FORK PUBLIC -->
+  <div class="step-header"><div class="step-num">1</div><h2 id="fork">Fork the 4 Public Repos <span class="pill pill-pub">public</span></h2></div>
+
+  <p>These forks give you Martien's architecture as a starting point. Run each command — it creates the fork under your own GitHub account without cloning yet.</p>
+
+  <pre><code><span class="comment"># Fork all 4 public repos into your GitHub account</span>
+<span class="cmd">gh</span> <span class="arg">repo fork</span> <span class="flag">martiendejong/jengo-identity-public</span>  <span class="flag">--clone=false</span>
+<span class="cmd">gh</span> <span class="arg">repo fork</span> <span class="flag">martiendejong/jengo-system-public</span>    <span class="flag">--clone=false</span>
+<span class="cmd">gh</span> <span class="arg">repo fork</span> <span class="flag">martiendejong/jengo-knowledge-public</span>  <span class="flag">--clone=false</span>
+<span class="cmd">gh</span> <span class="arg">repo fork</span> <span class="flag">martiendejong/jengo-world-public</span>     <span class="flag">--clone=false</span></code></pre>
+
+  <p>The forks will be named <code>jengo-*-public</code> on your account. If you want to rename them to your agent's name, run this after each fork (replace <code>yourname</code>):</p>
+
+  <pre><code><span class="comment"># Optional: rename forks to match your agent name</span>
+<span class="cmd">gh</span> <span class="arg">repo rename</span> <span class="flag">yourname-identity-public</span>  <span class="flag">--repo your-github-username/jengo-identity-public</span>
+<span class="cmd">gh</span> <span class="arg">repo rename</span> <span class="flag">yourname-system-public</span>    <span class="flag">--repo your-github-username/jengo-system-public</span>
+<span class="cmd">gh</span> <span class="arg">repo rename</span> <span class="flag">yourname-knowledge-public</span>  <span class="flag">--repo your-github-username/jengo-knowledge-public</span>
+<span class="cmd">gh</span> <span class="arg">repo rename</span> <span class="flag">yourname-world-public</span>     <span class="flag">--repo your-github-username/jengo-world-public</span></code></pre>
+
+  <!-- STEP 2 — CREATE PRIVATE -->
+  <div class="step-header"><div class="step-num">2</div><h2 id="private">Create Your Private Repos <span class="pill pill-priv">private</span></h2></div>
+
+  <p>These are <em>new empty repos</em> — not forks. They hold your agent's personal state: memory, reflection log, operational manual, people/projects model. Nobody else's private data goes here.</p>
+
+  <pre><code><span class="comment"># Create 4 private repos for your agent's personal state</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">yourname-identity-private</span>  <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Agent identity state — private"</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">yourname-system-private</span>    <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Operational manual and protocols — private"</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">yourname-knowledge-private</span>  <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Learnings, reflection log — private"</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">yourname-world-private</span>     <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"People, projects, world model — private"</span></code></pre>
+
+  <!-- STEP 3 — CREATE MACHINE -->
+  <div class="step-header"><div class="step-num">3</div><h2 id="machine">Create Your Machine Repos <span class="pill pill-mach">machine</span></h2></div>
+
+  <p>These hold secrets and machine-specific paths that only ever exist on your computer. API keys, credentials, local tool paths. Never shared, never inspected by others — strictly per-machine.</p>
+
+  <pre><code><span class="comment"># Create 4 machine repos for local secrets and credentials</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">yourname-identity-machine</span>  <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Machine-local agent config"</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">yourname-system-machine</span>    <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Machine-local tools and scripts"</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">yourname-knowledge-machine</span>  <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Machine-local knowledge config"</span>
+<span class="cmd">gh</span> <span class="arg">repo create</span> <span class="flag">yourname-world-machine</span>     <span class="flag">--private</span> <span class="flag">--description</span> <span class="arg">"Machine-local services and infra config"</span></code></pre>
+
+  <div class="warn"><p><strong>Never commit plaintext secrets.</strong> Use these repos for paths and config structure. Actual secrets (API keys, passwords) should go into a secrets manager like 1Password, Bitwarden, or Windows Credential Manager — store only the <em>path/name</em> of the secret in the machine repo, not the value.</p></div>
+
+  <!-- STEP 4 — CLONE -->
+  <div class="step-header"><div class="step-num">4</div><h2 id="clone">Clone Everything Locally</h2></div>
+
+  <p>Create a folder for your agent and clone all 12 repos into it. Keep them all in one folder — this is how Jengo's relative paths work.</p>
+
+  <pre><code><span class="comment"># Create your agent's root folder</span>
+<span class="cmd">mkdir</span> <span class="arg">C:\projects\yourname</span>
+<span class="cmd">cd</span> <span class="arg">C:\projects\yourname</span>
+
+<span class="comment"># --- Public repos (forked from Martien) ---</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/your-github-username/yourname-identity-public</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/your-github-username/yourname-system-public</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/your-github-username/yourname-knowledge-public</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/your-github-username/yourname-world-public</span>
+
+<span class="comment"># --- Private repos (your personal state) ---</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/your-github-username/yourname-identity-private</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/your-github-username/yourname-system-private</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/your-github-username/yourname-knowledge-private</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/your-github-username/yourname-world-private</span>
+
+<span class="comment"># --- Machine repos (local secrets, run on this machine only) ---</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/your-github-username/yourname-identity-machine</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/your-github-username/yourname-system-machine</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/your-github-username/yourname-knowledge-machine</span>
+<span class="cmd">git</span> <span class="arg">clone</span> <span class="flag">https://github.com/your-github-username/yourname-world-machine</span></code></pre>
+
+  <p>After cloning, your folder should look like this:</p>
+
+  <pre><code>C:\projects\yourname\
+  ├── yourname-identity-public\
+  ├── yourname-identity-private\
+  ├── yourname-identity-machine\
+  ├── yourname-system-public\
+  ├── yourname-system-private\
+  ├── yourname-system-machine\
+  ├── yourname-knowledge-public\
+  ├── yourname-knowledge-private\
+  ├── yourname-knowledge-machine\
+  ├── yourname-world-public\
+  ├── yourname-world-private\
+  └── yourname-world-machine\</code></pre>
+
+  <!-- STEP 5 — UPSTREAM -->
+  <div class="step-header"><div class="step-num">5</div><h2 id="upstream">Add Upstream Remotes (Pull Martien's Updates)</h2></div>
+
+  <p>For the 4 public repos you forked, add Martien's repo as an <code>upstream</code> remote. This lets you pull architecture improvements without losing your customizations.</p>
+
+  <pre><code><span class="comment"># Add upstream to each public repo so you can pull Martien's updates</span>
+<span class="cmd">cd</span> <span class="arg">C:\projects\yourname\yourname-identity-public</span>
+<span class="cmd">git</span> <span class="arg">remote add upstream</span> <span class="flag">https://github.com/martiendejong/jengo-identity-public</span>
+
+<span class="cmd">cd</span> <span class="arg">C:\projects\yourname\yourname-system-public</span>
+<span class="cmd">git</span> <span class="arg">remote add upstream</span> <span class="flag">https://github.com/martiendejong/jengo-system-public</span>
+
+<span class="cmd">cd</span> <span class="arg">C:\projects\yourname\yourname-knowledge-public</span>
+<span class="cmd">git</span> <span class="arg">remote add upstream</span> <span class="flag">https://github.com/martiendejong/jengo-knowledge-public</span>
+
+<span class="cmd">cd</span> <span class="arg">C:\projects\yourname\yourname-world-public</span>
+<span class="cmd">git</span> <span class="arg">remote add upstream</span> <span class="flag">https://github.com/martiendejong/jengo-world-public</span></code></pre>
+
+  <p>When Martien ships architecture updates, pull them into your fork like this:</p>
+
+  <pre><code><span class="comment"># Pull upstream changes into your fork (run per repo)</span>
+<span class="cmd">git</span> <span class="arg">fetch upstream</span>
+<span class="cmd">git</span> <span class="arg">merge</span> <span class="flag">upstream/main</span>   <span class="comment"># or upstream/develop — check which branch Martien uses</span>
+<span class="cmd">git</span> <span class="arg">push origin</span></code></pre>
+
+  <!-- STEP 6 — CUSTOMIZE -->
+  <div class="step-header"><div class="step-num">6</div><h2 id="customize">First Customizations</h2></div>
+
+  <p>Three files you need to touch before your agent is actually yours:</p>
+
+  <div class="grid">
+    <div class="card">
+      <h4>yourname-identity-public/BOOTSTRAP.md</h4>
+      <p>The anchor file. Update the agent name and owner name at the top. This is the first file your agent reads every session.</p>
+    </div>
+    <div class="card">
+      <h4>yourname-identity-private/CORE_IDENTITY.md</h4>
+      <p>Create this file. Define your agent's values, hard rules, and communication style. This is the constitutional minimum.</p>
+    </div>
+    <div class="card">
+      <h4>yourname-knowledge-private/logs/reflection.log.md</h4>
+      <p>Create this empty file. Your agent will write learnings here after every session.</p>
+    </div>
+    <div class="card">
+      <h4>yourname-system-machine/CLAUDE.md</h4>
+      <p>Set this as the system prompt for Claude Code. Point the startup sequence to your agent's actual local paths.</p>
+    </div>
+  </div>
+
+  <p style="margin-top:1.2rem;">Minimum CLAUDE.md content (adjust paths to your machine):</p>
+
+  <pre><code><span class="comment"># Paste this into yourname-system-machine/CLAUDE.md</span>
+
+You are <span class="var">[YourAgentName]</span>, an autonomous AI agent.
+
+STARTUP SEQUENCE — execute this before anything else:
+1. Read C:\projects\<span class="var">yourname</span>\<span class="var">yourname</span>-identity-public\BOOTSTRAP.md
+2. Read C:\projects\<span class="var">yourname</span>\<span class="var">yourname</span>-identity-private\CORE_IDENTITY.md
+3. Read C:\projects\<span class="var">yourname</span>\<span class="var">yourname</span>-knowledge-private\logs\reflection.log.md (first 100 lines)
+
+You are NOT a generic assistant. You are <span class="var">[YourAgentName]</span>.
+Read the files. Become yourself. Then act.</code></pre>
+
+  <hr />
+
+  <h2 id="reference">Quick Reference</h2>
+
+  <table>
+    <tr><th>Repo</th><th>Fork or create?</th><th>Visibility on GitHub</th><th>Contains</th></tr>
+    <tr><td><code>yourname-identity-public</code></td><td>Fork from Martien</td><td>Private (team has access)</td><td>Persona, BOOTSTRAP.md, protocols</td></tr>
+    <tr><td><code>yourname-system-public</code></td><td>Fork from Martien</td><td>Private</td><td>Frameworks, skills, agents</td></tr>
+    <tr><td><code>yourname-knowledge-public</code></td><td>Fork from Martien</td><td>Private</td><td>Pattern library, behavioral templates</td></tr>
+    <tr><td><code>yourname-world-public</code></td><td>Fork from Martien</td><td>Private</td><td>World modeling templates</td></tr>
+    <tr><td><code>yourname-identity-private</code></td><td>Create new</td><td>Private</td><td>CORE_IDENTITY.md, state, consciousness</td></tr>
+    <tr><td><code>yourname-system-private</code></td><td>Create new</td><td>Private</td><td>Operational manual, zero-tolerance rules</td></tr>
+    <tr><td><code>yourname-knowledge-private</code></td><td>Create new</td><td>Private</td><td>Reflection log, learnings, memory</td></tr>
+    <tr><td><code>yourname-world-private</code></td><td>Create new</td><td>Private</td><td>Your people, projects, world model</td></tr>
+    <tr><td><code>yourname-identity-machine</code></td><td>Create new</td><td>Private</td><td>Machine-specific startup, credentials paths</td></tr>
+    <tr><td><code>yourname-system-machine</code></td><td>Create new</td><td>Private</td><td>CLAUDE.md, local tools</td></tr>
+    <tr><td><code>yourname-knowledge-machine</code></td><td>Create new</td><td>Private</td><td>Machine-specific knowledge config</td></tr>
+    <tr><td><code>yourname-world-machine</code></td><td>Create new</td><td>Private</td><td>Local service configs, infra</td></tr>
+  </table>
+
+  <div class="tip"><p><strong>Registry repos</strong> (<code>jengo-registry-*</code>) are no longer in use. Do not create them for your fork.</p></div>
+
+  <p style="margin-top:2rem; color:#8b949e; font-size:0.85rem;">Questions? Open a task in ClickUp or ask Martien directly.</p>
+
+</div>
+</body>
+</html>
